@@ -28,7 +28,7 @@ subprojects {
     }
     
     dependencies {
-        implementation 'io.vertx:vertx-core:4.3.0'
+        implementation 'io.vertx:vertx-core:4.2.5'
         implementation "io.netty:netty-resolver-dns-native-macos:4.1.104.Final:osx-aarch_64"
 
         // SLF4J API

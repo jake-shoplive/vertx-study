@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <!-- 로그 디렉토리 설정 -->
+        <Property name="LOG_DIR">multi-worker-pool/logs</Property>
+    </Properties>
+    
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <!-- monitor 관련 파일 로그 -->
+        <RollingFile name="MonitorFileAppender" 
+                     fileName="${LOG_DIR}/monitor.log"
+                     filePattern="${LOG_DIR}/monitor-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- monitor 관련 클래스들 - 파일 로그만 -->
+        <Logger name="com.gig.vertx.multiworkerpool.monitor" level="DEBUG" additivity="false">
+            <AppenderRef ref="MonitorFileAppender"/>
+        </Logger>
+        
+        <!-- multi-instance 모듈 로거 설정 - 콘솔 로그만 -->
+        <Logger name="com.gig.vertx.multiworkerpool" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <!-- 기타 com.gig.vertx 로거 - 콘솔 로그만 -->
+        <Logger name="com.gig.vertx" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>

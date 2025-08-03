@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+}
+
+group = 'gig.com'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+// 공통 의존성 정의
+ext {
+    vertxVersion = '4.2.5'
+    slf4jVersion = '1.7.36'
+    log4jVersion = '2.20.0'
+}
+
+// 모든 서브프로젝트에 공통 설정 적용
+subprojects {
+    apply plugin: 'java'
+    
+    group = 'gig.com'
+    version = '1.0-SNAPSHOT'
+    
+    repositories {
+        mavenCentral()
+    }
+    
+    dependencies {
+        implementation 'io.vertx:vertx-core:4.3.0'
+        implementation "io.netty:netty-resolver-dns-native-macos:4.1.104.Final:osx-aarch_64"
+
+        // SLF4J API
+        implementation 'org.slf4j:slf4j-api:1.7.36'
+
+        // SLF4J 구현체 (Log4j2 사용)
+        implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.20.0'
+        implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+
+        testImplementation platform('org.junit:junit-bom:5.10.0')
+        testImplementation 'org.junit.jupiter:junit-jupiter'
+    }
+    
+    test {
+        useJUnitPlatform()
+    }
+}
